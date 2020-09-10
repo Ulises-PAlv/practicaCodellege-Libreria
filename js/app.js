@@ -1,3 +1,7 @@
+/**
+ * MAIN
+ */
+
 const autor = document.getElementById("inputAutor");
 const titulo = document.getElementById("inputTitulo");
 const tabla = document.getElementById("tbody");
@@ -9,6 +13,8 @@ const patern = /^[a-zA-ZÁ-ÿ0-9\s]{3,100}$/;
 function eventListener(){
     document.getElementById("btnAdd").addEventListener("click",prepararLibro);
     tabla.addEventListener("click",acciones);
+
+    document.getElementById('btn-vaciar').addEventListener('click', vaciarLibreria);
 }
 
 eventListener();
@@ -75,4 +81,14 @@ function prepararDOM() {
         let tr= libro.agregar(librosLS[i]);
         tabla.appendChild(tr);
     }
+}
+
+function vaciarLibreria() {
+    console.log(tabla.firstChild);
+
+    while(tabla.firstChild) {
+        tabla.firstChild.remove();
+    }
+
+    LocalStorageOperation.limpiarStorage();
 }

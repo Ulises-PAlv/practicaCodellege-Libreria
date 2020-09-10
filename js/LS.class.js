@@ -10,21 +10,35 @@ class LocalStorageOperation {
             let arrayLibros= this.obtenerLS();
             arrayLibros.push(infoLibro);
 
-            //console.log(arrayLibros);
-
             localStorage.setItem('Libros', JSON.stringify(arrayLibros));
         }
 
         static obtenerLS() {
             if(localStorage.getItem('Libros') === null) {
-                //.getItem(key);
-                //console.log('Vacio');
-
                 return []; //para asi tener un array vacio y no un null y asi poder hacer push
             }else {
-                //console.log('Si hay libros');
-
                 return JSON.parse(localStorage.getItem('Libros'));
+            }
+        }
+
+        static limpiarStorage() {
+            localStorage.clear();
+        }
+
+        static borrarLibro(idLibro) {
+            let arrayLibros= this.obtenerLS();
+            let arrayAux= [];
+            console.log(arrayLibros);
+
+            for(let i= 0; i<arrayLibros.length; i++) {
+                if(idLibro != arrayLibros[i].id) {
+                    arrayAux.push(arrayLibros[i]);
+                }
+            }
+            console.log(arrayAux);
+            localStorage.clear();
+            if(arrayAux.length > 0) {
+                localStorage.setItem('Libros', JSON.stringify(arrayAux));
             }
         }
 }

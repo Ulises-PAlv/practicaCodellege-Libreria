@@ -13,6 +13,8 @@ class Libro{
             //console.log(this.id, this.autor, this.titulo);
 
             const tr = document.createElement("tr");
+            tr.setAttribute('id', `${this.id}`);
+
             tr.innerHTML = `<th scope="row">${this.id}</th>
                             <td>${this.titulo}</td>
                             <td>${this.autor}</td>
@@ -34,9 +36,11 @@ class Libro{
             // element puede tener dos valores ('I', 'BUTTON')
             if(element.tagName === 'I'){
                 element.parentElement.parentElement.parentElement.parentElement.remove();
+                LocalStorageOperation.borrarLibro(element.parentElement.parentElement.parentElement.parentElement.id);
 
             }else{
                 element.parentElement.parentElement.parentElement.remove();
+                LocalStorageOperation.borrarLibro(element.parentElement.parentElement.parentElement.id);
             }
             this.id--;
         }

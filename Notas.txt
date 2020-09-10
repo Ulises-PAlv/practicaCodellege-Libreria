@@ -1,11 +1,10 @@
 Practica de JavaScript, acerca de una libreria que tenga los siguientes metodos:
-    -
-    -
-    -
-    -
+    -Agregar libro
+    -Eliminar libro
+    -Editar libro
+    -Buscar un libro
 
-
-
+    ~Que sean almacenados los cambios en el LS.
 
 //////////////////////////////////////////////////////////////////////////
 LOCAL STORAGE:
@@ -47,3 +46,9 @@ Esto es un array de objetos llamado "JSON"
 Mediante el static podemos acceder a un metodo de una clase sin ser instanciado
 
 JSON.parse() => convierte el objeto a string
+
+.getItem(key);
+
+El metodo "firstChild" Refresa el primer nodo hijo del elemento al que se aplica.
+    ejemp. <tr> <a></a> </tr>
+            tr.firstChild => la salida es el elemento a 
