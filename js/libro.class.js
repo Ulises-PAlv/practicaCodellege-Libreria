@@ -42,6 +42,5 @@ class Libro{
                 element.parentElement.parentElement.parentElement.remove();
                 LocalStorageOperation.borrarLibro(element.parentElement.parentElement.parentElement.id);
             }
-            this.id--;
         }
 }

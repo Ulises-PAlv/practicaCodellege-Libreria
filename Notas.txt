@@ -52,3 +52,5 @@ JSON.parse() => convierte el objeto a string
 El metodo "firstChild" Refresa el primer nodo hijo del elemento al que se aplica.
     ejemp. <tr> <a></a> </tr>
             tr.firstChild => la salida es el elemento a 
+
+event.preventDefault(); QUita la acci'on de recargar del submit, tambien se requiere cambiar type en html a button

@@ -5,6 +5,7 @@
 const autor = document.getElementById("inputAutor");
 const titulo = document.getElementById("inputTitulo");
 const tabla = document.getElementById("tbody");
+const inputBuscar= document.getElementById("inputBuscar");
 
 const libro = new Libro();
 
@@ -15,37 +16,51 @@ function eventListener(){
     tabla.addEventListener("click",acciones);
 
     document.getElementById('btn-vaciar').addEventListener('click', vaciarLibreria);
+
+    document.getElementById('btnBuscar').addEventListener('click', buscarLibro);
 }
 
 eventListener();
 prepararDOM();
 
-let id= 0;
-
 function prepararLibro(){
+
+    let id= Number(LocalStorageOperation.ultimoID());
+    id++;
 
     if((autor.value != "" && titulo.value != "") && (patern.test(autor.value) && patern.test(titulo.value))){
 
         //Arreglo tipo objeto
         const tipoLibro= {
-            id: id++,
+            id: id,
             titulo: titulo.value.trim(),
             autor: autor.value.trim()
         }
 
-        let tr = libro.agregar(tipoLibro);
-        tabla.appendChild(tr);
-        LocalStorageOperation.almacenarLibro(tipoLibro);
-
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Se ha agregado el libro',
-            showConfirmButton: false,
-            timer: 1000
-        })
-        autor.value = "";
-        titulo.value = "";
+        let validacionExistencia= LocalStorageOperation.validarTitulo(tipoLibro.titulo.trim().toLowerCase(), tipoLibro.autor.trim().toLowerCase());
+        if(validacionExistencia == 0) {
+            let tr = libro.agregar(tipoLibro);
+            tabla.appendChild(tr);
+            LocalStorageOperation.almacenarLibro(tipoLibro);
+    
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se ha agregado el libro',
+                showConfirmButton: false,
+                timer: 1000
+            })
+            autor.value = "";
+            titulo.value = "";
+        }else {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Libro ya existente',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        }
     }else{
         Swal.fire({
             position: 'center',
@@ -91,4 +106,34 @@ function vaciarLibreria() {
     }
 
     LocalStorageOperation.limpiarStorage();
+}
+
+function buscarLibro(event) {
+    event.preventDefault();
+
+    //Validar que el input tenga texto
+    if(inputBuscar.value != '') {
+        let resultadoBusqueda= LocalStorageOperation.buscarTitulo(inputBuscar.value.trim().toLowerCase());
+    
+        if(resultadoBusqueda != '') {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Busqueda exitosa',
+                text: `El libro ${resultadoBusqueda.autor} tiene el id ${resultadoBusqueda.id} y fue escrito por ${resultadoBusqueda.autor}`,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }else {
+            console.log("Naur");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `No esta registrado el libro ${inputBuscar.value}`,
+                footer: '<a href>Why do I have this issue?</a>'
+            })
+        }
+    }
+
+    inputBuscar.value= '';
 }
