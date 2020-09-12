@@ -29,18 +29,37 @@ class LocalStorageOperation {
         static borrarLibro(idLibro) {
             let arrayLibros= this.obtenerLS();
             let arrayAux= [];
-            console.log(arrayLibros);
 
             for(let i= 0; i<arrayLibros.length; i++) {
                 if(idLibro != arrayLibros[i].id) {
                     arrayAux.push(arrayLibros[i]);
                 }
             }
-            console.log(arrayAux);
             localStorage.clear();
             if(arrayAux.length > 0) {
                 localStorage.setItem('Libros', JSON.stringify(arrayAux));
             }
+        }
+
+        static editarLibro(idLibro, objEdit) {
+            let arrayLibros= this.obtenerLS();
+            let arrayAux= [];
+
+            console.log(objEdit.id);
+            for(let i= 0; i< arrayLibros.length; i++) {
+
+                if(idLibro != arrayLibros[i].id) {
+                    console.log(idLibro + "!=" + arrayLibros[i].id);
+                    arrayAux.push(arrayLibros[i]);
+                }else {
+                    console.log(idLibro + "==" + arrayLibros[i].id);
+                    objEdit.id= arrayLibros[i].id;
+                    arrayAux.push(objEdit);
+                }
+            }
+
+            localStorage.setItem('Libros', JSON.stringify(arrayAux));
+            window.location.reload();
         }
 
         static ultimoID() {

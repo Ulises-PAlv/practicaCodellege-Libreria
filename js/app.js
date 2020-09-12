@@ -4,6 +4,8 @@
 
 const autor = document.getElementById("inputAutor");
 const titulo = document.getElementById("inputTitulo");
+const autorEdit= document.getElementById("inputAutorEdit");
+const tituloEdit = document.getElementById("inputTituloEdit");
 const tabla = document.getElementById("tbody");
 const inputBuscar= document.getElementById("inputBuscar");
 
@@ -76,6 +78,7 @@ function prepararLibro(){
 
 function acciones(event){
     if(event.target.tagName === 'I' || event.target.tagName === 'BUTTON'){
+        //Borrar btn
         if(event.target.className.includes("btn-warning") || event.target.className.includes("fa-trash")){
             libro.eliminar(event.target);
             Swal.fire({
@@ -85,6 +88,48 @@ function acciones(event){
                 showConfirmButton: false,
                 timer: 1000
             })
+        }
+        //Editar btn
+        if(event.target.className.includes("btn-info") || event.target.className.includes("fa-edit")){
+
+            document.getElementById('btnEdit').addEventListener("click", () => {
+                if((autorEdit.value != "" && tituloEdit.value != "") && (patern.test(autorEdit.value) && patern.test(tituloEdit.value))) {
+                    const libroEdit= {
+                        id: 0,
+                        titulo: tituloEdit.value.trim(),
+                        autor: autorEdit.value.trim()
+                    }
+
+                    let verificar= LocalStorageOperation.validarTitulo(libroEdit.titulo.trim().toLowerCase(), libroEdit.autor.trim().toLowerCase());
+                    if(verificar == 0) {
+                        libro.editar(event.target, libroEdit);
+
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'El libro ha sido editado exitosamente',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    }else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Datos dados ya existentes',
+                            showConfirmButton: false,
+                            timer: 1000
+                        })
+                    }
+                }else{
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Datos no válidos',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                }
+            });
         }
     }
 }

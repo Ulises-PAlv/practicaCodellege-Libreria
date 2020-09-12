@@ -20,7 +20,7 @@ class Libro{
                             <td>${this.autor}</td>
                             <td>
                                 <div class="btn-group" role="" aria-label="Basic example">
-                                    <button id="editar${this.id}" type="button" class="btn btn-info">
+                                    <button id="editar${this.id}" type="button" class="btn btn-info" data-target="#modalEdit" data-toggle="modal">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button id="eliminar${this.id}" type="button" class="btn btn-danger">
@@ -43,4 +43,19 @@ class Libro{
                 LocalStorageOperation.borrarLibro(element.parentElement.parentElement.parentElement.id);
             }
         }
+
+        
+        editar(element, arrayLibro) {
+
+            if(element.tagName === 'I'){
+                LocalStorageOperation.editarLibro(element.parentElement.parentElement.parentElement.parentElement.id, arrayLibro);
+            }else{
+                LocalStorageOperation.editarLibro(element.parentElement.parentElement.parentElement.id, arrayLibro);
+            }
+
+            /*console.log("Editancia ON");
+            console.log(element);
+            console.log(arrayLibro.titulo + "++++" + arrayLibro.autor);*/
+        }
+
 }
